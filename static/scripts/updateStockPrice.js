@@ -1,7 +1,17 @@
 
-import { apiKey } from './api-keys.js';
+
+import {API_KEY} from '../scripts/api-keys.js';
 // Use the apiKey variable in your code
-console.log(apiKey);
+console.log(API_KEY);
+
+// Verify that the apiKey variable is not undefined
+if (API_KEY === undefined) {
+  console.log('API key is undefined');
+} else {
+  console.log('API key is defined');
+}
+
+
 
 console.log('updateStockPrice.js loaded');
 

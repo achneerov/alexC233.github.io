@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Stock Price</title>
-  </head>
-  <body>
-    <h1>Stock Price</h1>
-    <p>The current price of Apple stock is <span id="stock-price"></span>.</p>
-    <!-- the .. in the beggining of the path means "go up one directory"-->
-    <script src="../static/scripts/updateStockPrice.js"></script>
-  </body>
-</html>
+<head>
+    <title>Real-time Bitcoin Price Graph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Bitcoin Price',
+                    data: [],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
 
-<!-- if it is not working check it on edge it might be a safari thing.-->
+        function updateChart() {
+            fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+                .then(response => response.json())
+                .then(data => {
+                    var time = new Date(data.time.updatedISO);
+                    var price = data.bpi.USD.rate_float;
+                    chart.data.labels.push(time.toLocaleTimeString());
+                    chart.data.datasets[0].data.push(price);
+                    chart.update();
+                });
+        }
+
+        setInterval(updateChart, 10000);
+    </script>
+</body>
+</html>
