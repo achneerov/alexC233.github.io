@@ -8,8 +8,15 @@ var ctx = document.getElementById('myChart').getContext('2d');
                     data: [],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                },
+                {
+                label: 'Predicted Bitcoin Price',
+                    data: [],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
-                }]
+            }]
             },
             options: {
                 scales: {
@@ -22,14 +29,18 @@ var ctx = document.getElementById('myChart').getContext('2d');
 
         function updateChart() {
             fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
-                .then(response => response.json())
-                .then(data => {
-                    var time = new Date(data.time.updatedISO);
-                    var price = data.bpi.USD.rate_float;
-                    chart.data.labels.push(time.toLocaleTimeString());
-                    chart.data.datasets[0].data.push(price);
-                    chart.update();
-                });
-        }
+              .then(response => response.json())
+              .then(data => {
+                var time = new Date(data.time.updatedISO);
+                var price = data.bpi.USD.rate_float;
+                chart.data.labels.push(time.toLocaleTimeString());
+                chart.data.datasets[0].data.push(price);
+                var predictedPrice = chart.data.datasets[1];
+                predictedPrice.data.push(27000);
+                predictedPrice.backgroundColor = 'rgb(54, 162, 235)';
+                predictedPrice.borderColor = 'rgb(54, 162, 235)';
+                chart.update();
+              });
+          }
 
         setInterval(updateChart, 10000);
