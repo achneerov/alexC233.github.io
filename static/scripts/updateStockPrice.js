@@ -1,5 +1,10 @@
+
+import { apiKey } from './api-keys.js';
+// Use the apiKey variable in your code
+console.log(apiKey);
+
 console.log('updateStockPrice.js loaded');
-const API_KEY = 'YXN47YF8UK27LEOLW';
+
 const SYMBOL = 'AAPL';
 
 function updateStockPrice() {
