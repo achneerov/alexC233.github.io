@@ -4,6 +4,9 @@ var ctx = document.getElementById('myChart').getContext('2d');
 //script.src = 'pricePredictor.js';
 // i dont think i need these either
 
+var time;
+var price;
+
 
 
     var chart = new Chart(ctx, {
@@ -49,17 +52,30 @@ var ctx = document.getElementById('myChart').getContext('2d');
             console.log(price);
             
             chart.data.labels.push(time);
-
+        
             // the x and y format isnt working
-
+        
             if (counter >= 5){
                 chart.data.datasets[0].data.push(price);
             }
-            chart.data.datasets[1].data.push(pricePredictor(price, time));
+            
+            //chart.data.datasets[1].data.push(pricePredictor(price, time));
+
+            pricePredictor(price, time)
+            .then(price => {
+                console.log(price); // Output: 28000
+                chart.data.datasets[1].data.push(price);
+            });
+
+
+                
+
             chart.update();
             ++counter;
         });
     }
+        
+    
 
     setInterval(updateChart, 3000);
 
@@ -79,5 +95,3 @@ var ctx = document.getElementById('myChart').getContext('2d');
             chart.update();
             });
         */
-
-          
