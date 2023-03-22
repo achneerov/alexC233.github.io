@@ -13,8 +13,8 @@ var ctx = document.getElementById('myChart').getContext('2d');
                 {
                 label: 'Predicted Bitcoin Price',
                     data: [],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
             }]
             },
@@ -37,16 +37,12 @@ var ctx = document.getElementById('myChart').getContext('2d');
                 console.log(time);
                 var price = data.data.priceUsd;
                 console.log(price);
-                var predictedPricePrice = price + 20
                 
                 chart.data.labels.push(time);
                 chart.data.datasets[0].data.push(price);
-
+                chart.data.datasets[1].data.push(parseInt(price)+5);
+        
                 
-                var predictedPrice = chart.data.datasets[1];
-                predictedPrice.data.push(predictedPricePrice);
-                predictedPrice.backgroundColor = 'rgb(54, 162, 235)';
-                predictedPrice.borderColor = 'rgb(54, 162, 235)';
                 
 
                 chart.update();
