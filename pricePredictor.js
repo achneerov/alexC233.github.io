@@ -11,34 +11,56 @@
 
 
 
+function pricePredictor(price, time, counter) {
+    var start = time - 86400000;
+    var end = time-10000;
+    return fetch(`https://api.coincap.io/v2/assets/bitcoin/history?interval=h2&start=${start}&end=${end}`)
+      .then(response => response.json())
+      .then(data => {
+        var lastMinutePrice = parseInt(data.data[2].priceUsd);
+        var lastHourPrice = parseInt(data.data[3].priceUsd);
+  
+        var movingAverage = (lastMinutePrice + lastHourPrice) / 2;
+        var pricePredicted = movingAverage;
+  
+        console.log("This is the price predicted in pricePredictor.js " + pricePredicted);
+        return pricePredicted;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 
+
+
+
+/*
 function pricePredictor(price, time) {
     return fetch('https://api.coincap.io/v2/assets/bitcoin/history?interval=h1')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             var lastMinutePrice = parseInt(data.data[10].priceUsd);
-            console.log(lastMinutePrice);
+            //console.log(lastMinutePrice);
             var lastHourPrice = parseInt(data.data[700].priceUsd);
-            console.log(lastHourPrice);
+            //console.log(lastHourPrice);
             
+            var pricePredicted;
             
+           
             var movingAverage = (lastMinutePrice + lastHourPrice) / 2;
-            console.log(movingAverage);
-            if (price >= movingAverage){
-                pricePredicted = price+5;
-            }
-            if (price < movingAverage){
-                pricePredicted = price-5;
-            }
+            pricePredicted = movingAverage
+            
+            console.log("this is the moving average " + movingAverage);
+            
 
 
             //var pricePredicted = 28000;
-            console.log(pricePredicted);
+            console.log("This is the price predicted in pricePredictor.js " + pricePredicted);
             return pricePredicted;
         });
 }
-
+*/
 
 
 

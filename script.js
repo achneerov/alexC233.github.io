@@ -45,11 +45,12 @@ var price;
         fetch('https://api.coincap.io/v2/assets/bitcoin')
         .then(response => response.json())
         .then(data => {
+            console.log("this is is normal data from assets ");
             console.log(data);
             var time = parseInt(data.timestamp);
-            console.log(time);
+            console.log("this is the timestamp from assets " + time);
             var price = parseInt(data.data.priceUsd);
-            console.log(price);
+            console.log("this is the price from assets " + price);
             
             chart.data.labels.push(time);
         
@@ -61,11 +62,14 @@ var price;
             
             //chart.data.datasets[1].data.push(pricePredictor(price, time));
 
-            pricePredictor(price, time)
+            pricePredictor(price, time, counter)
             .then(price => {
-                console.log(price); // Output: 28000
+                console.log("This is the price predicted in script.js " + price);
                 chart.data.datasets[1].data.push(price);
-            });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                });
 
 
                 
