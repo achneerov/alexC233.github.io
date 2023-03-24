@@ -9,19 +9,33 @@
 // if stock price is above moving average, the algo thinks it will keep moving up
 // if stock price is below moving averege, the algo thinks it will keep moving down
 
+//1679529600000 - 1679522400000
+//1679522400000
 
-
-function pricePredictor(price, time, counter) {
-    var start = time - 86400000;
-    var end = time-10000;
+function pricePredictor(price, time, counter, lastMinutePrice, updateFrequency, lineDifference) {
+    var start = time - 14210000;
+    var end = time - 10000;
     return fetch(`https://api.coincap.io/v2/assets/bitcoin/history?interval=h2&start=${start}&end=${end}`)
       .then(response => response.json())
       .then(data => {
-        var lastMinutePrice = parseInt(data.data[2].priceUsd);
-        var lastHourPrice = parseInt(data.data[3].priceUsd);
-  
-        var movingAverage = (lastMinutePrice + lastHourPrice) / 2;
-        var pricePredicted = movingAverage;
+        console.log("here is the data from the time api");
+        console.log(data)
+        var latestPrice = parseInt(data.data[0].priceUsd);
+        var lastHourPrice = parseInt(data.data[data.data.length - 1].priceUsd);
+        if (counter >= lineDifference){ // was 10
+            var movingAverage = (latestPrice + lastHourPrice) / 2;
+            var pricePredicted = (movingAverage + lastMinutePrice) / 2;
+            
+            //console.log("It got to counter >=10 in pricepredictor.js");
+        }
+        if (counter < lineDifference){
+            var movingAverage = ((latestPrice + lastHourPrice) / 2);
+            var pricePredicted = movingAverage;
+        }
+        console.log("This is the last minute price according to pricePredictor.js " + lastMinutePrice);
+        console.log("This is the moving average according to pricePredictor.js " + movingAverage);
+        
+        
   
         console.log("This is the price predicted in pricePredictor.js " + pricePredicted);
         return pricePredicted;

@@ -6,6 +6,10 @@ var ctx = document.getElementById('myChart').getContext('2d');
 
 var time;
 var price;
+var counter = 0;
+var lastMinutePrice;
+var updateFrequency = 1000; // in milleseconds // worked with 7
+var lineDifference = 15; // how much ahead you want the predicted price to be // worked with 7
 
 
 
@@ -39,8 +43,11 @@ var price;
         }
     });
 
-    var counter = 0;
+    
     function updateChart() {
+        console.log("");
+        console.log("");
+        console.log("");
             
         fetch('https://api.coincap.io/v2/assets/bitcoin')
         .then(response => response.json())
@@ -55,14 +62,28 @@ var price;
             chart.data.labels.push(time);
         
             // the x and y format isnt working
-        
-            if (counter >= 5){
+    
+            if (counter >= lineDifference){ // was 7
                 chart.data.datasets[0].data.push(price);
             }
             
             //chart.data.datasets[1].data.push(pricePredictor(price, time));
+            
+            if (counter >= lineDifference) { // was 7
+                if (data.data[data.data.length - 1] > 59) {
+                  var lastMinutePrice = chart.data.datasets[0].data[59];
+                } else {
+                  var lastMinutePrice = chart.data.datasets[0].data[chart.data.datasets[0].data.length - 1];
+                }
+                console.log("This is the last minute price according to script.js " + lastMinutePrice);
+              }
+            
+            
+            
 
-            pricePredictor(price, time, counter)
+            lastMinutePrice = parseInt(lastMinutePrice)
+
+            pricePredictor(price, time, counter, lastMinutePrice, updateFrequency, lineDifference)
             .then(price => {
                 console.log("This is the price predicted in script.js " + price);
                 chart.data.datasets[1].data.push(price);
@@ -81,7 +102,7 @@ var price;
         
     
 
-    setInterval(updateChart, 3000);
+    setInterval(updateChart, updateFrequency);
 
         /*
         fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
