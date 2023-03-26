@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!-- cd into CRYPTO-WEBSITE-NOPY then run http-server to run-->
-    <title>Real-time Bitcoin Price Graph</title>
+    <title>Crypto Graph</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    <canvas id="myChart"></canvas>
+    <h1>Bitcoin Price Predictor</h1>
+    <p>This graph predicts the price of bitcoin 15 seconds in 
+        advance using the CoinCap API. The formula for predicting 
+        the future price is based on the moving average, which is 
+        calculated using the price one hour ago and the price one 
+        minute ago. I also added a randomizer that adds or subtracts 
+        a value of 5 from the predicted price to make it more realistic.</p>
+    <canvas id="myChart" width="1200" height="600"></canvas>
     <script src="script.js"></script>
     <script src="pricePredictor.js"></script>
 </body>
+
 </html>
