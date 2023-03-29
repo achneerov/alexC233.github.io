@@ -1,4 +1,4 @@
-var ctx = document.getElementById('myChart').getContext('2d');
+
 
 var time;
 var price;
@@ -8,33 +8,7 @@ var updateFrequency = 1000; // in milleseconds
 var lineDifference = 15; // how much ahead you want the predicted price to be, multiplied by update freq
 var delay = updateFrequency*lineDifference;
 
-var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [],
-        datasets: [{
-            label: 'Bitcoin Price',
-            data: [],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-        },
-        {
-            label: 'Predicted Bitcoin Price',
-            data: [],
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: false
-            },
-        }
-    }
-});
+
 
 
 function updateChart() {
@@ -59,8 +33,6 @@ function updateChart() {
             const time1 = modifiedTime.toISOString();
             
 
-            //console.log(`Time: ${time1}`);
-            //modifiedTime = new Date(modifiedTime);
             chart.data.labels.push(time1);
             
             
