@@ -1,11 +1,14 @@
 
 
+
+var lineDifference = inputLineDifference; // how much ahead you want the predicted price to be, multiplied by update freq
+
+
 var time;
 var price;
 var counter = 0;
 var lastMinutePrice;
 var updateFrequency = 1000; // in milleseconds 
-var lineDifference = 15; // how much ahead you want the predicted price to be, multiplied by update freq
 var delay = updateFrequency*lineDifference;
 
 
@@ -15,6 +18,7 @@ function updateChart() {
     console.log("");
     console.log("");
     console.log("");
+    lineDifference = inputLineDifference;
 
     fetch('https://api.coincap.io/v2/assets/bitcoin')
         .then(response => response.json())
@@ -29,10 +33,18 @@ function updateChart() {
             var price = parseInt(data.data.priceUsd);
             console.log("this is the price from assets " + price);
 
-            modifiedTime = new Date(time + delay);
-            const time1 = modifiedTime.toISOString();
-            
 
+            //modifiedTime = new Date(time + delay);
+            //const time1 = modifiedTime.toISOString();
+            //console.log("This is the time we are pushing " + time1)
+
+            modifiedTime = new Date(time + delay);
+            const timeInSeconds = modifiedTime.getTime() / 1000;
+            const hours = Math.floor(timeInSeconds / 3600);
+            const minutes = Math.floor((timeInSeconds % 3600) / 60);
+            const seconds = Math.floor(timeInSeconds % 60);
+            console.log("This is the time we are pushing " + minutes + ":" + seconds);
+            time1 = (minutes + ":" + seconds)
             chart.data.labels.push(time1);
             
             

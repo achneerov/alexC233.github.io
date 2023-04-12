@@ -6,7 +6,14 @@
     <title>Crypto Graph</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="inputLineDifference.js"></script>
 </head>
+
+
+<input type="text" id="myInput">
+<button onclick="myFunction()">Set Variable</button>
+
+
 
 <body>
     <h1>Bitcoin Price Predictor</h1>
@@ -15,7 +22,8 @@
         the future price is based on the moving average, which is 
         calculated using the price one hour ago and the price one 
         minute ago. I also added a randomizer that adds or subtracts 
-        a value of 5 from the predicted price to make it more realistic.</p>
+        a value of 5 from the predicted price to make it more visually appealing. 
+        The X axis is in minutes:seconds</p>
     <canvas id="myChart" width="1200" height="600"></canvas>
     <script src="script.js"></script>
     <script src="theChart.js"></script>
